@@ -1,0 +1,36 @@
+background no
+update_interval 1
+cpu_avg_samples 2
+net_avg_samples 2
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+border_inner_margin 0
+border_outer_margin 0
+minimum_size 500 300
+alignment tr
+draw_shades no
+use_xft yes
+xftfont monospace:size=10
+xftalpha 0.5
+default_color 99A9B8
+lua_load ~/.lua/scripts/rings.lua
+lua_draw_hook_pre rings
+
+TEXT
+${voffset 84}${font neuropol}CPU${goto 160}${font}Usage${alignr 106}${cpu}%
+${goto 160}Temperature${alignr 106}${acpitemp}°C
+${voffset 126}${font neuropol}MEMORY${goto 160}${font}Memory${alignr 106}${memperc}%
+${goto 160}Swap${alignr 106}${swapperc}%
+${voffset 126}${font neuropol}FILESYSTEMS${goto 160}${font}${execi 1 df | grep ^/dev | sed -n 1p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 1p | awk '{ print $3 " / " $2 }'}
+${goto 160}${execi 1 df | grep ^/dev | sed -n 3p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 3p | awk '{ print $3 " / " $2 }'}
+${goto 160}${execi 1 df | grep ^/dev | sed -n 4p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 4p | awk '{ print $3 " / " $2 }'}
+${goto 160}${execi 1 df | grep ^/dev | sed -n 5p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 5p | awk '{ print $3 " / " $2 }'}
+${voffset 92}${font neuropol}NETWORK${goto 160}${font}eno1 down${alignr 106}${downspeed eno1}
+${goto 160}wlo1 down${alignr 106}${downspeed wlo1}
+${goto 160}eno1 up${alignr 106}${upspeed eno1}
+${goto 160}wlo1 up${alignr 106}${upspeed wlo1}
