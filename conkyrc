@@ -6,9 +6,8 @@ double_buffer yes
 no_buffers yes
 text_buffer_size 2048
 own_window yes
-own_window_type override
 own_window_transparent yes
-own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+own_window_hints undecorated,sticky,skip_taskbar,skip_pager,below
 border_inner_margin 0
 border_outer_margin 0
 minimum_size 500 300
