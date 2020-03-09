@@ -1,26 +1,27 @@
-background no
-update_interval 1
-cpu_avg_samples 2
-net_avg_samples 2
-double_buffer yes
-no_buffers yes
-text_buffer_size 2048
-own_window yes
-own_window_transparent yes
-own_window_hints undecorated,sticky,skip_taskbar,skip_pager,below
-border_inner_margin 0
-border_outer_margin 0
-minimum_size 500 300
-alignment tr
-draw_shades no
-use_xft yes
-xftfont monospace:size=10
-xftalpha 0.5
-default_color 99A9B8
-lua_load ~/.lua/scripts/rings.lua
-lua_draw_hook_pre rings
-
-TEXT
+conky.config = {
+  background = false,
+  update_interval = 1,
+  cpu_avg_samples = 2,
+  net_avg_samples = 2,
+  double_buffer = true,
+  no_buffers = true,
+  text_buffer_size = 2048,
+  own_window = true,
+  own_window_transparent = true,
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
+  border_inner_margin = 0,
+  border_outer_margin = 0,
+  minimum_width = 500, minimum_height = 300,
+  alignment = 'top_right',
+  draw_shades = false,
+  use_xft = true,
+  font = 'monospace:size=10',
+  xftalpha = 0.5,
+  default_color = '#99A9B8',
+  lua_load = '~/.lua/scripts/rings.lua',
+  lua_draw_hook_pre = 'rings',
+};
+conky.text = [[
 ${voffset 82}${font neuropol}CPU${goto 160}${font}Usage${alignr 106}${cpu}%
 ${goto 160}Temperature${alignr 106}${acpitemp}°C
 ${voffset 129}${font neuropol}MEMORY${goto 160}${font}Memory${alignr 106}${memperc}%
@@ -33,3 +34,4 @@ ${voffset 99}${font neuropol}NETWORK${goto 160}${font}eno1 down${alignr 106}${do
 ${goto 160}wlo1 down${alignr 106}${downspeed wlo1}
 ${goto 160}eno1 up${alignr 106}${upspeed eno1}
 ${goto 160}wlo1 up${alignr 106}${upspeed wlo1}
+]];
