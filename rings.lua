@@ -1,8 +1,10 @@
-conf = {
-  bg_colour = 0xffffff,
+config = {
+  bg_color = 0xffffff,
   bg_alpha = 0.2,
-  fg_colour = 0xffffff,
-  fg_alpha = 0.6
+  fg_color = 0xffffff,
+  fg_alpha = 0.6,
+  network_ethernet = 'eno1',
+  network_wlan = 'wlo1'
 }
 elements = {
   {
@@ -123,7 +125,7 @@ elements = {
   },
   {
     name = 'downspeedf',
-    arg = 'eno1',
+    arg = config['network_ethernet'],
     max = 12,
     log = true,
     x = 400,
@@ -135,7 +137,7 @@ elements = {
   },
   {
     name = 'downspeedf',
-    arg = 'wlo1',
+    arg = config['network_wlan'],
     max = 12,
     log = true,
     x = 400,
@@ -147,7 +149,7 @@ elements = {
   },
   {
     name = 'upspeedf',
-    arg = 'eno1',
+    arg = config['network_ethernet'],
     max = 12,
     log = true,
     x = 400,
@@ -159,7 +161,7 @@ elements = {
   },
   {
     name = 'upspeedf',
-    arg = 'wlo1',
+    arg = config['network_wlan'],
     max = 12,
     log = true,
     x = 400,
@@ -171,16 +173,14 @@ elements = {
   }
 }
 require 'cairo'
-function rgba(colour, alpha)
-  return colour / 0x10000 % 0x100 / 255.,
-         colour / 0x100 % 0x100 / 255.,
-         colour % 0x100 / 255.,
-         alpha
+function rgba(color, alpha)
+  return color / 0x10000 % 0x100 / 255., color / 0x100 % 0x100 / 255.,
+      color % 0x100 / 255., alpha
 end
 function draw_line(cr, pt)
   cairo_move_to(cr, pt['x0'], pt['y0'])
   cairo_line_to(cr, pt['x1'], pt['y1'])
-  cairo_set_source_rgba(cr, rgba(conf['fg_colour'], conf['fg_alpha']))
+  cairo_set_source_rgba(cr, rgba(config['fg_color'], config['fg_alpha']))
   cairo_set_line_width(cr, pt['width'])
   cairo_stroke(cr)
 end
@@ -189,19 +189,20 @@ function draw_ring(cr, val, pt)
   local angle_f = pt['end_angle'] * math.pi / 180 - math.pi / 2
   local angle_t = angle_0 + val / pt['max'] * (angle_f - angle_0)
   cairo_arc(cr, pt['x'], pt['y'], pt['r'], angle_0, angle_f)
-  cairo_set_source_rgba(cr, rgba(conf['bg_colour'], conf['bg_alpha']))
+  cairo_set_source_rgba(cr, rgba(config['bg_color'], config['bg_alpha']))
   cairo_set_line_width(cr, pt['width'])
   cairo_stroke(cr)
   cairo_arc(cr, pt['x'], pt['y'], pt['r'], angle_0, angle_t)
-  cairo_set_source_rgba(cr, rgba(conf['fg_colour'], conf['fg_alpha']))
+  cairo_set_source_rgba(cr, rgba(config['fg_color'], config['fg_alpha']))
   cairo_stroke(cr)
 end
 function setup_rings(cr, pt)
   if pt['name'] == nil then
     draw_line(cr, pt)
   else
-    local val = conky_parse(string.format('${%s %s}', pt['name'],
-      pt['arg'])):gsub('%%', '')
+    local val = conky_parse(
+      string.format('${%s %s}', pt['name'], pt['arg'])
+    ):gsub('%%', '')
     val = tonumber(val)
     if val == nil then
       return
@@ -217,8 +218,12 @@ function conky_rings()
     return
   end
   local cs = cairo_xlib_surface_create(
-      conky_window.display, conky_window.drawable, conky_window.visual,
-      conky_window.width, conky_window.height)
+    conky_window.display,
+    conky_window.drawable,
+    conky_window.visual,
+    conky_window.width,
+    conky_window.height
+  )
   local cr = cairo_create(cs)
   for i in pairs(elements) do
     setup_rings(cr, elements[i])

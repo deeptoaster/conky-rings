@@ -1,3 +1,7 @@
+config = {
+  network_ethernet = 'eno1',
+  network_wlan = 'wlo1'
+}
 conky.config = {
   background = false,
   update_interval = 1,
@@ -24,14 +28,17 @@ conky.config = {
 conky.text = [[
 ${voffset 82}${font neuropol}CPU${goto 160}${font}Usage${alignr 106}${cpu}%
 ${goto 160}Temperature${alignr 106}${acpitemp}°C
-${voffset 129}${font neuropol}MEMORY${goto 160}${font}Memory${alignr 106}${memperc}%
+${voffset 126}${font neuropol}MEMORY${goto 160}${font}Memory${alignr 106}${memperc}%
 ${goto 160}Swap${alignr 106}${swapperc}%
-${voffset 129}${font neuropol}FILESYSTEMS${goto 160}${font}${execi 1 df | grep ^/dev | sed -n 1p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 1p | awk '{ print $3 " / " $2 }'}
+${voffset 126}${font neuropol}FILESYSTEMS${goto 160}${font}${execi 1 df | grep ^/dev | sed -n 1p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 1p | awk '{ print $3 " / " $2 }'}
 ${goto 160}${execi 1 df | grep ^/dev | sed -n 3p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 3p | awk '{ print $3 " / " $2 }'}
 ${goto 160}${execi 1 df | grep ^/dev | sed -n 4p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 4p | awk '{ print $3 " / " $2 }'}
 ${goto 160}${execi 1 df | grep ^/dev | sed -n 5p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 5p | awk '{ print $3 " / " $2 }'}
-${voffset 99}${font neuropol}NETWORK${goto 160}${font}eno1 down${alignr 106}${downspeed eno1}
-${goto 160}wlo1 down${alignr 106}${downspeed wlo1}
-${goto 160}eno1 up${alignr 106}${upspeed eno1}
-${goto 160}wlo1 up${alignr 106}${upspeed wlo1}
-]];
+${voffset 92}${font neuropol}NETWORK${goto 160}${font}]] ..
+    config['network_ethernet'] .. ' down${alignr 106}${downspeed ' ..
+    config['network_ethernet'] .. '}\n${goto 160}' .. config['network_wlan'] ..
+    ' down${alignr 106}${downspeed ' .. config['network_wlan'] ..
+    '}\n${goto 160}' .. config['network_ethernet'] ..
+    ' up${alignr 106}${upspeed ' .. config['network_ethernet'] ..
+    '}\n${goto 160}' .. config['network_wlan'] ..
+    ' up${alignr 106}${upspeed ' .. config['network_wlan'] .. '}';
