@@ -12,6 +12,7 @@ conky.config = {
   text_buffer_size = 2048,
   own_window = true,
   own_window_transparent = true,
+  own_window_argb_visual = true,
   own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
   border_inner_margin = 0,
   border_outer_margin = 0,
