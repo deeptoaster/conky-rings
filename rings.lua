@@ -85,7 +85,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 3p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df | grep ^/dev | sed -n 2p | awk '{ print substr($5, 1, length($5) - 1) }'",
     max = 100,
     x = 400,
     y = 400,
@@ -96,7 +96,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 4p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df | grep ^/dev | sed -n 3p | awk '{ print substr($5, 1, length($5) - 1) }'",
     max = 100,
     x = 400,
     y = 400,
@@ -107,7 +107,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 5p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df | grep ^/dev | sed -n 4p | awk '{ print substr($5, 1, length($5) - 1) }'",
     max = 100,
     x = 400,
     y = 400,

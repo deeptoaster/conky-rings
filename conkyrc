@@ -32,9 +32,9 @@ ${goto 160}Temperature${alignr 106}${acpitemp}°C
 ${voffset 126}${font neuropol}MEMORY${goto 160}${font}Memory${alignr 106}${memperc}%
 ${goto 160}Swap${alignr 106}${swapperc}%
 ${voffset 126}${font neuropol}FILESYSTEMS${goto 160}${font}${execi 1 df | grep ^/dev | sed -n 1p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 1p | awk '{ print $3 " / " $2 }'}
+${goto 160}${execi 1 df | grep ^/dev | sed -n 2p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 2p | awk '{ print $3 " / " $2 }'}
 ${goto 160}${execi 1 df | grep ^/dev | sed -n 3p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 3p | awk '{ print $3 " / " $2 }'}
 ${goto 160}${execi 1 df | grep ^/dev | sed -n 4p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 4p | awk '{ print $3 " / " $2 }'}
-${goto 160}${execi 1 df | grep ^/dev | sed -n 5p | awk '{ print $6 }'}${alignr 106}${execi 1 df -h | grep ^/dev | sed -n 5p | awk '{ print $3 " / " $2 }'}
 ${voffset 92}${font neuropol}NETWORK${goto 160}${font}]] ..
     config['network_ethernet'] .. ' down${alignr 106}${downspeed ' ..
     config['network_ethernet'] .. '}\n${goto 160}' .. config['network_wlan'] ..
