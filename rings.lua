@@ -74,7 +74,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 1p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df --output=pcent -x tmpfs | sed -En '2s/\\s*(\\S+)%/\\1/p'",
     max = 100,
     x = 400,
     y = 400,
@@ -85,7 +85,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 2p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df --output=pcent -x tmpfs | sed -En '3s/\\s*(\\S+)%/\\1/p'",
     max = 100,
     x = 400,
     y = 400,
@@ -96,7 +96,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 3p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df --output=pcent -x tmpfs | sed -En '4s/\\s*(\\S+)%/\\1/p'",
     max = 100,
     x = 400,
     y = 400,
@@ -107,7 +107,7 @@ elements = {
   },
   {
     name = 'execi',
-    arg = "1 df | grep ^/dev | sed -n 4p | awk '{ print substr($5, 1, length($5) - 1) }'",
+    arg = "1 df --output=pcent -x tmpfs | sed -En '5s/\\s*(\\S+)%/\\1/p'",
     max = 100,
     x = 400,
     y = 400,
