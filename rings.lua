@@ -119,10 +119,13 @@ function draw_ring(cairo, y, radius, breakpoints, max)
       previous_angle = breakpoint_angle + math.pi / 135
     end
   end
-  cairo_set_line_width(cairo, 6)
-  cairo_set_source_rgba(cairo, rgba(config['bg_color'], config['bg_alpha']))
-  cairo_arc(cairo, 400, y, radius, previous_angle, angle(max, max))
-  cairo_stroke(cairo)
+  breakpoint_angle = angle(max, max)
+  if breakpoint_angle > previous_angle then
+    cairo_set_line_width(cairo, 6)
+    cairo_set_source_rgba(cairo, rgba(config['bg_color'], config['bg_alpha']))
+    cairo_arc(cairo, 400, y, radius, previous_angle, )
+    cairo_stroke(cairo)
+  end
 end
 function conky_rings()
   if conky_window == nil then
