@@ -123,7 +123,7 @@ function draw_ring(cairo, y, radius, breakpoints, max)
   if breakpoint_angle > previous_angle then
     cairo_set_line_width(cairo, 6)
     cairo_set_source_rgba(cairo, rgba(config['bg_color'], config['bg_alpha']))
-    cairo_arc(cairo, 400, y, radius, previous_angle, )
+    cairo_arc(cairo, 400, y, radius, previous_angle, breakpoint_angle)
     cairo_stroke(cairo)
   end
 end
