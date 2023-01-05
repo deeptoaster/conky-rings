@@ -41,10 +41,9 @@ ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 4p}${alignr 106}${exec
 ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '5s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
 ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 6p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '6s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
 ${voffset 75}${font neuropol}NETWORK${font}${goto 143}]] ..
-    config['network_ethernet'] .. ' down${alignr 106}${downspeed ' ..
-    config['network_ethernet'] .. '}\n${goto 143}' .. config['network_wlan'] ..
-    ' down${alignr 106}${downspeed ' .. config['network_wlan'] ..
-    '}\n${goto 143}' .. config['network_ethernet'] ..
-    ' up${alignr 106}${upspeed ' .. config['network_ethernet'] ..
-    '}\n${goto 143}' .. config['network_wlan'] ..
-    ' up${alignr 106}${upspeed ' .. config['network_wlan'] .. '}';
+    config.network_ethernet .. ' down${alignr 106}${downspeed ' ..
+    config.network_ethernet .. '}\n${goto 143}' .. config.network_wlan ..
+    ' down${alignr 106}${downspeed ' .. config.network_wlan .. '}\n${goto 143}'
+    .. config.network_ethernet .. ' up${alignr 106}${upspeed ' ..
+    config.network_ethernet .. '}\n${goto 143}' .. config.network_wlan ..
+    ' up${alignr 106}${upspeed ' .. config.network_wlan .. '}';

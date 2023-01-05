@@ -37,8 +37,9 @@ Update the values under the `config` block in each file as appropriate.
 
 - `bg_color` and `bg_alpha` define the color of the background (unused or
   unoccupied) part of the ring.
-- `fg_color` and `fg_alpha` define the color of the foreground (used or
-  occupied) part of the ring.
+- `fg_color_override` and `fg_alpha` define the color of the foreground (used
+  or occupied) part of the ring. If `fg_color_override` is `nil`, four default
+  colors are used, as shown in the screenshot above.
 - `network_ethernet` is the name of your Ethernet device (which you can
   obtain through `ip link`)
 - `network_wlan` is the name of your Wi-Fi device (which you can obtain
