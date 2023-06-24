@@ -3,39 +3,38 @@ config = {
   network_wlan = 'wlo1'
 }
 conky.config = {
+  alignment = 'top_right',
   background = false,
-  update_interval = 1,
-  cpu_avg_samples = 2,
-  net_avg_samples = 2,
-  double_buffer = true,
-  no_buffers = true,
-  text_buffer_size = 2048,
-  own_window = true,
-  own_window_transparent = true,
-  own_window_argb_visual = true,
-  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
   border_inner_margin = 0,
   border_outer_margin = 0,
-  minimum_width = 500, minimum_height = 300,
-  alignment = 'top_right',
-  draw_shades = false,
-  use_xft = true,
-  font = 'monospace:size=10',
-  xftalpha = 0.5,
+  border_width = 0,
   default_color = '#99A9B8',
-  lua_load = '~/.lua/scripts/rings.lua',
+  double_buffer = true,
+  draw_shades = false,
+  font = 'DejaVu Sans Mono:size=10',
   lua_draw_hook_pre = 'rings',
+  lua_load = '~/.lua/scripts/rings.lua',
+  no_buffers = true,
+  own_window = true,
+  own_window_argb_visual = true,
+  own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
+  own_window_transparent = true,
+  minimum_width = 500,
+  update_interval = 1,
+  use_xft = true
 };
 conky.text = [[
-${voffset 82}${font neuropol}CPU${font}${goto 143}Usage${alignr 106}${cpu}%
+${voffset 82}${font neuropol}PROCESSOR${font}${goto 143}CPU usage${alignr 106}${cpu}%
 ${goto 143}  ${top name 1}${alignr 106}${top cpu 1}%
 ${goto 143}  ${top name 2}${alignr 106}${top cpu 2}%
+${goto 143}GPU usage${alignr 106}${nvidia gpuutil}%
 ${goto 143}Temperature${alignr 106}${acpitemp}°C
-${voffset 92}${font neuropol}MEMORY${font}${goto 143}Memory${alignr 106}${mem} / ${memmax}
+${voffset 75}${font neuropol}MEMORY${font}${goto 143}CPU memory${alignr 106}${mem} / ${memmax}
 ${goto 143}  ${top_mem name 1}${alignr 106}${top_mem mem 1}%
 ${goto 143}  ${top_mem name 2}${alignr 106}${top_mem mem 2}%
+${goto 143}GPU memory${alignr 106}${nvidia mem}MiB / ${nvidia memmax}MiB
 ${goto 143}Swap${alignr 106}${swap} / ${swapmax}
-${voffset 92}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '2s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
+${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '2s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
 ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '3s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
 ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 4p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '4s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}
 ${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '5s/(\S+)([A-Z])\s+(\S+)([A-Z])/\1 \2iB \/ \3 \4iB/p'}

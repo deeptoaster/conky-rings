@@ -15,6 +15,7 @@ groups = {
         command = 'cpu',
         max = 100
       },
+      { command = 'nvidia gpuutil', max = 100 },
       { command = 'acpitemp', max = 100 }
     }
   },
@@ -31,6 +32,7 @@ groups = {
         command = 'memperc',
         max = 100
       },
+      { command = 'nvidia memperc', max = 100 },
       { command = 'swapperc', max = 100 }
     }
   },
