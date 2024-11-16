@@ -85,6 +85,7 @@ groups = {
   }
 }
 require 'cairo'
+require 'cairo_xlib'
 function angle(position, max)
   return position / max * math.pi * 1.5 - math.pi
 end
