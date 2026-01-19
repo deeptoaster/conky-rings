@@ -114,8 +114,8 @@ end
 function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
   local previous_angle = angle(0, max)
   cairo_set_source_rgba(cairo, rgba(fg_color, config.fg_alpha))
-  for breakpoint_index in pairs(breakpoints) do
-    local breakpoint_angle = angle(breakpoints[breakpoint_index], max)
+  for breakpoint_index, breakpoint in pairs(breakpoints) do
+    local breakpoint_angle = angle(breakpoint, max)
     if breakpoint_angle > previous_angle then
       cairo_set_line_width(cairo, (#breakpoints - breakpoint_index) * 2 + 6)
       cairo_arc(
@@ -149,22 +149,20 @@ function conky_rings()
     conky_window.width,
     conky_window.height
   ))
-  for group_index in pairs(groups) do
-    local group = groups[group_index]
+  for group_index, group in pairs(groups) do
     local y = group_index * 160 - 80
     local breakpoint_count = 0
     local fg_color = group.fg_color
     if config.fg_color_override ~= nil then
       fg_color = config.fg_color_override
     end
-    for ring_index in pairs(group.rings) do
+    for ring_index, ring in pairs(group.rings) do
       local breakpoints = {}
-      local ring = group.rings[ring_index]
       local value = evaluate(ring.command, ring.log)
       if ring.breakpoints ~= nil then
         local position = 0
-        for breakpoint_index in pairs(ring.breakpoints) do
-          local value = evaluate(ring.breakpoints[breakpoint_index], ring.log)
+        for breakpoint_index, breakpoint in pairs(ring.breakpoints) do
+          local value = evaluate(breakpoint, ring.log)
           if value == nil then
             break
           end
