@@ -13,7 +13,7 @@ conky.config = {
   draw_shades = false,
   font = 'DejaVu Sans Mono:size=10',
   lua_draw_hook_pre = 'rings',
-  lua_load = '~/.lua/scripts/rings.lua',
+  lua_load = os.getenv('HOME') .. '/.lua/scripts/rings.lua',
   no_buffers = true,
   own_window = true,
   own_window_argb_visual = true,
