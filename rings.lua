@@ -15,8 +15,17 @@ groups = {
         command = 'cpu',
         max = 100
       },
-      { command = 'nvidia gpuutil', max = 100 },
-      { command = 'acpitemp', max = 100 }
+      {
+        command =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu',
+        max = 100
+      },
+      {
+        command =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw',
+        max =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.limit'
+      }
     }
   },
   {
@@ -32,7 +41,12 @@ groups = {
         command = 'memperc',
         max = 100
       },
-      { command = 'nvidia memperc', max = 100 },
+      {
+        command =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used',
+        max =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.total'
+      },
       { command = 'swapperc', max = 100 }
     }
   },
@@ -70,17 +84,27 @@ groups = {
     fg_color = 0x8aa236,
     rings = {
       {
-        command = 'downspeedf ' .. config.network_ethernet,
+        breakpoints = {
+          'downspeedf ' .. config.network_ethernet,
+          'downspeedf ' .. config.network_wlan,
+        },
         log = true,
         max = 12
       },
-      { command = 'downspeedf ' .. config.network_wlan, log = true, max = 12 },
       {
-        command = 'upspeedf ' .. config.network_ethernet,
+        breakpoints = {
+          'upspeedf ' .. config.network_ethernet,
+          'upspeedf ' .. config.network_wlan,
+        },
         log = true,
         max = 12
       },
-      { command = 'upspeedf ' .. config.network_wlan, log = true, max = 12 }
+      { command = 'acpitemp', max = 100 },
+      {
+        command =
+            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=temperature.gpu',
+        max = 100
+      }
     }
   }
 }
@@ -90,7 +114,7 @@ function angle(position, max)
   return position / max * math.pi * 1.5 - math.pi
 end
 function evaluate(command, log)
-  local value = conky_parse(string.format('${%s}', command)):gsub('%%', '')
+  local value = conky_parse(string.format('${%s}', command))
   value = tonumber(value)
   if value == nil then
     return
@@ -112,6 +136,9 @@ function draw_line(cairo, y, breakpoint_count, fg_color)
   cairo_stroke(cairo)
 end
 function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
+  if type(max) == 'string' then
+    max = evaluate(max, false)
+  end
   local previous_angle = angle(0, max)
   cairo_set_source_rgba(cairo, rgba(fg_color, config.fg_alpha))
   for breakpoint_index, breakpoint in pairs(breakpoints) do
