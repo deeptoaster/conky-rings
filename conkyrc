@@ -1,4 +1,5 @@
 config = {
+  fg_color_override = nil,
   network_ethernet = 'eno1',
   network_wlan = 'wlo1'
 }
@@ -8,8 +9,13 @@ conky.config = {
   border_inner_margin = 0,
   border_outer_margin = 0,
   border_width = 0,
-  default_color = '#99A9B8',
+  color0 = string.format('%06x', config.fg_color_override or 0xc56277),
+  color1 = string.format('%06x', config.fg_color_override or 0x9775aa),
+  color2 = string.format('%06x', config.fg_color_override or 0xd4a36a),
+  color3 = string.format('%06x', config.fg_color_override or 0x8aa236),
+  default_color = '#99a9b8',
   double_buffer = true,
+  draw_graph_borders = false,
   draw_shades = false,
   font = 'DejaVu Sans Mono:size=10',
   lua_draw_hook_pre = 'rings',
@@ -24,24 +30,35 @@ conky.config = {
   use_xft = true
 };
 conky.text = [[
-${voffset 82}${font neuropol}PROCESSOR${font}${goto 143}CPU usage${alignr 106}${cpu}%
+${voffset 37}
+${color0}${cpugraph 20,327}${color}
+${voffset -9}${font neuropol}PROCESSOR${font}${goto 143}CPU usage${alignr 106}${cpu}%
 ${goto 143}  ${top name 1}${alignr 106}${top cpu 1}%
 ${goto 143}  ${top name 2}${alignr 106}${top cpu 2}%
-${goto 143}GPU usage${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu}%
-${goto 143}GPU power${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw}W / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.limit}W
-${voffset 75}${font neuropol}MEMORY${font}${goto 143}CPU memory${alignr 106}${mem} / ${memmax}
+${goto 143}GPU usage${alignr 106} ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu | grep -v '\bfailed\b'}%
+${goto 143}GPU power${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw | grep -v '\bfailed\b'}W / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.limit | grep -v '\bfailed\b'}W
+${voffset 30}
+${color1}${memgraph 20,327}${color}
+${voffset -9}${font neuropol}MEMORY${font}${goto 143}CPU memory${alignr 106}${mem} / ${memmax}
 ${goto 143}  ${top_mem name 1}${alignr 106}${top_mem mem 1}%
 ${goto 143}  ${top_mem name 2}${alignr 106}${top_mem mem 2}%
-${goto 143}GPU memory${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used}MiB / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.total}MiB
 ${goto 143}Swap${alignr 106}${swap} / ${swapmax}
-${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '2s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '3s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 4p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '4s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '5s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 6p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '6s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${voffset 75}${font neuropol}NET / TEMP${font}${goto 143}Download speed${alignr 106}${downspeed ]] ..
+${goto 143}GPU memory${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used | grep -v '\bfailed\b'}MiB / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.total | grep -v '\bfailed\b'}MiB
+${voffset 30}
+${color2}${downspeedgraph ]] .. config.network_wlan ..
+    [[ 20,327 -l}
+${voffset -54}
+${downspeedgraph ]] .. config.network_wlan ..
+    [[ 20,327 -l}${color}
+${voffset -9}${font neuropol}NET / TEMP${font}${goto 143}Download speed${alignr 106}${downspeed ]] ..
     config.network_ethernet .. '} + ${downspeed ' .. config.network_wlan .. [[}
 ${goto 143}Upload speed${alignr 106}${upspeed ]] .. config.network_ethernet ..
     '} + ${upspeed ' .. config.network_wlan .. [[}
 ${goto 143}ACPI Temperature${alignr 106}${acpitemp}°C
-${goto 143}GPU Temperature${alignr 106}${execi 1 nvidia-smi --format=noheader --query-gpu=temperature.gpu}°C]];
+${goto 143}GPU Temperature${alignr 106}${execi 1 nvidia-smi --format=noheader --query-gpu=temperature.gpu | grep -v '\bfailed\b'}°C
+
+${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '2s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '3s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 4p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '4s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '5s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 6p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '6s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}]];

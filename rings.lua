@@ -11,18 +11,19 @@ groups = {
     fg_color = 0xc56277,
     rings = {
       {
-        breakpoints = { 'top cpu 1', 'top cpu 2', 'top cpu 3', 'top cpu 4' },
-        command = 'cpu',
+        breakpoints = { 'top cpu 1', 'top cpu 2', 'top cpu 3', 'top cpu 4', 'cpu' },
         max = 100
       },
       {
-        command =
-            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu',
+        breakpoints = {
+          'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu',
+        },
         max = 100
       },
       {
-        command =
-            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw',
+        breakpoints = {
+          'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw',
+        },
         max =
             'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.limit'
       }
@@ -36,52 +37,23 @@ groups = {
           'top_mem mem 1',
           'top_mem mem 2',
           'top_mem mem 3',
-          'top_mem mem 4'
+          'top_mem mem 4',
+          'memperc',
         },
-        command = 'memperc',
         max = 100
       },
+      { breakpoints = { 'swapperc' }, max = 100 },
       {
-        command =
-            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used',
+        breakpoints = {
+          'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used',
+        },
         max =
             'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.total'
-      },
-      { command = 'swapperc', max = 100 }
-    }
-  },
-  {
-    fg_color = 0xd4a36a,
-    rings = {
-      {
-        command =
-            "execi 1 df --output=pcent -x tmpfs | sed -En '2s/\\s*(\\S+)%/\\1/p'",
-        max = 100
-      },
-      {
-        command =
-            "execi 1 df --output=pcent -x tmpfs | sed -En '3s/\\s*(\\S+)%/\\1/p'",
-        max = 100
-      },
-      {
-        command =
-            "execi 1 df --output=pcent -x tmpfs | sed -En '4s/\\s*(\\S+)%/\\1/p'",
-        max = 100
-      },
-      {
-        command =
-            "execi 1 df --output=pcent -x tmpfs | sed -En '5s/\\s*(\\S+)%/\\1/p'",
-        max = 100
-      },
-      {
-        command =
-            "execi 1 df --output=pcent -x tmpfs | sed -En '6s/\\s*(\\S+)%/\\1/p'",
-        max = 100
       }
     }
   },
   {
-    fg_color = 0x8aa236,
+    fg_color = 0xd4a36a,
     rings = {
       {
         breakpoints = {
@@ -99,10 +71,46 @@ groups = {
         log = true,
         max = 12
       },
-      { command = 'acpitemp', max = 100 },
+      { breakpoints = { 'acpitemp' }, max = 100 },
       {
-        command =
-            'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=temperature.gpu',
+        breakpoints = {
+          'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=temperature.gpu',
+        },
+        max = 100
+      }
+    }
+  },
+  {
+    fg_color = 0x8aa236,
+    rings = {
+      {
+        breakpoints = {
+          "execi 1 df --output=pcent -x tmpfs | sed -En '2s/\\s*(\\S+)%/\\1/p'",
+        },
+        max = 100
+      },
+      {
+        breakpoints = {
+          "execi 1 df --output=pcent -x tmpfs | sed -En '3s/\\s*(\\S+)%/\\1/p'",
+        },
+        max = 100
+      },
+      {
+        breakpoints = {
+          "execi 1 df --output=pcent -x tmpfs | sed -En '4s/\\s*(\\S+)%/\\1/p'",
+        },
+        max = 100
+      },
+      {
+        breakpoints = {
+          "execi 1 df --output=pcent -x tmpfs | sed -En '5s/\\s*(\\S+)%/\\1/p'",
+        },
+        max = 100
+      },
+      {
+        breakpoints = {
+          "execi 1 df --output=pcent -x tmpfs | sed -En '6s/\\s*(\\S+)%/\\1/p'",
+        },
         max = 100
       }
     }
@@ -129,10 +137,10 @@ function rgba(color, alpha)
       color % 0x100 / 255, alpha
 end
 function draw_line(cairo, y, breakpoint_count, fg_color)
-  cairo_set_line_width(cairo, 2)
+  cairo_set_line_width(cairo, 1)
   cairo_set_source_rgba(cairo, rgba(fg_color, config.fg_alpha))
-  cairo_move_to(cairo, 0, y - 1)
-  cairo_line_to(cairo, 337 - breakpoint_count * 2, y - 1)
+  cairo_move_to(cairo, 0, y - 0.5)
+  cairo_line_to(cairo, 337 - breakpoint_count * 2, y - 0.5)
   cairo_stroke(cairo)
 end
 function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
@@ -185,20 +193,14 @@ function conky_rings()
     end
     for ring_index, ring in pairs(group.rings) do
       local breakpoints = {}
-      local value = evaluate(ring.command, ring.log)
-      if ring.breakpoints ~= nil then
-        local position = 0
-        for breakpoint_index, breakpoint in pairs(ring.breakpoints) do
-          local value = evaluate(breakpoint, ring.log)
-          if value == nil then
-            break
-          end
-          position = position + value
-          table.insert(breakpoints, position)
+      local position = 0
+      for breakpoint_index, breakpoint in pairs(ring.breakpoints) do
+        local value = evaluate(breakpoint, ring.log)
+        if value == nil then
+          break
         end
-      end
-      if value ~= nil then
-        table.insert(breakpoints, value)
+        position = position + value
+        table.insert(breakpoints, position)
       end
       breakpoint_count = math.max(breakpoint_count, #breakpoints)
       if #breakpoints ~= 0 then
