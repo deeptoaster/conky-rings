@@ -57,8 +57,8 @@ ${goto 143}Upload speed${alignr 106}${upspeed ]] .. config.network_ethernet ..
 ${goto 143}ACPI Temperature${alignr 106}${acpitemp}°C
 ${goto 143}GPU Temperature${alignr 106}${execi 1 nvidia-smi --format=noheader --query-gpu=temperature.gpu | grep -v '\bfailed\b'}°C
 
-${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '2s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '3s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 4p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '4s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '5s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
-${goto 143}${execi 1 df --output=target -x tmpfs | sed -n 6p}${alignr 106}${execi 1 df -h --output=used,size -x tmpfs | sed -En '6s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}]];
+${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '2s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '3s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 4p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '4s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 5p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '5s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
+${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 6p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '6s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}]];
