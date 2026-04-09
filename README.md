@@ -16,9 +16,9 @@ On Debian- and Ubuntu-based systems, you can run the following commands:
 ```
 sudo apt install conky
 git clone https://github.com/deeptoaster/conky-rings.git
-ln -rs conky-rings/conkyrc ~/.conkyrc
+ln -rs $PWD/conky-rings/conkyrc ~/.conkyrc
 mkdir -p ~/.lua/scripts
-ln -rs conky-rings/rings.lua ~/.lua/scripts/rings.lua
+ln -rs $PWD/conky-rings/rings.lua ~/.lua/scripts/rings.lua
 conky --daemonize --pause=1
 ```
 
