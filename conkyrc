@@ -54,8 +54,8 @@ ${voffset -9}${font neuropol}NET / TEMP${font}${goto 143}Download speed${alignr 
     config.network_ethernet .. '} + ${downspeed ' .. config.network_wlan .. [[}
 ${goto 143}Upload speed${alignr 106}${upspeed ]] .. config.network_ethernet ..
     '} + ${upspeed ' .. config.network_wlan .. [[}
-${goto 143}ACPI Temperature${alignr 106}${acpitemp}°C
-${goto 143}GPU Temperature${alignr 106}${execi 1 nvidia-smi --format=noheader --query-gpu=temperature.gpu | grep -v '\bfailed\b'}°C
+${goto 143}ACPI temperature${alignr 106}${acpitemp}°C
+${goto 143}GPU temperature${alignr 106}${execi 1 nvidia-smi --format=noheader --query-gpu=temperature.gpu | grep -v '\bfailed\b'}°C
 
 ${voffset 75}${font neuropol}FILESYSTEM${font}${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 2p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '2s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
 ${goto 143}${execi 1 df --output=target -x efivarfs -x tmpfs | sed -n 3p}${alignr 106}${execi 1 df -h --output=used,size -x efivarfs -x tmpfs | sed -En '3s/(\S+)\s+(\S+)/\1iB \/ \2iB/p'}
