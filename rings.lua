@@ -65,7 +65,7 @@ groups = {
         log = true,
         max = 12
       },
-      { command = 'acpitemp', max = 100 },
+      { command = "execi 1 sensors | sed -En 's/^Package id [0-9]+:\\s+\\+?([0-9]+).*$/\\1/p'", max = 100 },
       {
         command =
             'execi 1 nvidia-smi --format=noheader,nounits --query-gpu=temperature.gpu',
