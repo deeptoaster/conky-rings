@@ -25,20 +25,20 @@ conky.config = {
   own_window_argb_visual = true,
   own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
   own_window_transparent = true,
-  minimum_width = 500,
+  minimum_width = 600,
   update_interval = 1,
   use_xft = true
 };
 conky.text = [[
 ${voffset 37}
-${color0}${cpugraph 20,327}${color}
+${color0}${cpugraph 20,427}${color}
 ${voffset -9}${font neuropol}PROCESSOR${font}${goto 143}CPU usage${alignr 106}${cpu}%
 ${goto 143}  ${top name 1}${alignr 106}${top cpu 1}%
 ${goto 143}  ${top name 2}${alignr 106}${top cpu 2}%
 ${goto 143}GPU usage${alignr 106} ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=utilization.gpu | grep -v '\bfailed\b'}%
 ${goto 143}GPU power${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.draw | grep -v '\bfailed\b'}W / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=power.limit | grep -v '\bfailed\b'}W
 ${voffset 30}
-${color1}${memgraph 20,327}${color}
+${color1}${memgraph 20,427}${color}
 ${voffset -9}${font neuropol}MEMORY${font}${goto 143}CPU memory${alignr 106}${mem} / ${memmax}
 ${goto 143}  ${top_mem name 1}${alignr 106}${top_mem mem 1}%
 ${goto 143}  ${top_mem name 2}${alignr 106}${top_mem mem 2}%
@@ -46,10 +46,10 @@ ${goto 143}Swap${alignr 106}${swap} / ${swapmax}
 ${goto 143}GPU memory${alignr 106}${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.used | grep -v '\bfailed\b'}MiB / ${execi 1 nvidia-smi --format=noheader,nounits --query-gpu=memory.total | grep -v '\bfailed\b'}MiB
 ${voffset 30}
 ${color2}${downspeedgraph ]] .. config.network_wlan ..
-    [[ 20,327 -l}
+    [[ 20,427 -l}
 ${voffset -54}
 ${downspeedgraph ]] .. config.network_wlan ..
-    [[ 20,327 -l}${color}
+    [[ 20,427 -l}${color}
 ${voffset -9}${font neuropol}NET / TEMP${font}${goto 143}Download speed${alignr 106}${downspeed ]] ..
     config.network_ethernet .. '} + ${downspeed ' .. config.network_wlan .. [[}
 ${goto 143}Upload speed${alignr 106}${upspeed ]] .. config.network_ethernet ..

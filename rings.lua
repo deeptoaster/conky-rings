@@ -128,7 +128,7 @@ function draw_line(cairo, y, breakpoint_count, fg_color)
   cairo_set_line_width(cairo, 1)
   cairo_set_source_rgba(cairo, rgba(fg_color, config.fg_alpha))
   cairo_move_to(cairo, 0, y - 0.5)
-  cairo_line_to(cairo, 337 - breakpoint_count * 2, y - 0.5)
+  cairo_line_to(cairo, 437 - breakpoint_count * 2, y - 0.5)
   cairo_stroke(cairo)
 end
 function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
@@ -143,7 +143,7 @@ function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
       cairo_set_line_width(cairo, (#breakpoints - breakpoint_index) * 2 + 6)
       cairo_arc(
         cairo,
-        400,
+        500,
         y,
         radius + #breakpoints - breakpoint_index,
         previous_angle,
@@ -157,7 +157,7 @@ function draw_ring(cairo, y, radius, breakpoints, max, fg_color)
   if breakpoint_angle > previous_angle then
     cairo_set_line_width(cairo, 6)
     cairo_set_source_rgba(cairo, rgba(config.bg_color, config.bg_alpha))
-    cairo_arc(cairo, 400, y, radius, previous_angle, breakpoint_angle)
+    cairo_arc(cairo, 500, y, radius, previous_angle, breakpoint_angle)
     cairo_stroke(cairo)
   end
 end
